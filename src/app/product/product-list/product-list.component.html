@@ -1,8 +1,12 @@
 <div class="container">
   <p class="text-xl font-bold">Our Latest Collection</p>
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFiter($event)" placeholder="Search"/>
+  </mat-form-field>
   <div class="flex flex-wrap gap-12">
     @for (product of products; track product.id) {
-    <div>
+    <div (click)="addToCart(product)">
       <mat-card
         class="max-w-36 hover:scale-105 transition-transform cursor-pointer"
       >

@@ -24,6 +24,12 @@ export class CartViewComponent implements OnInit {
   cartItems: Product[] = [];
 
   constructor(private cartService: CartService) {}
+  fetchData() {
+    this.cartService.getCartItems().subscribe((data) => {
+      this.cartItems = data;
+    });
+  }
+
   getTotalPrice(): number {
     return this.cartItems.reduce(
       (accumulator, currentValue) => accumulator + +currentValue.price,
@@ -31,9 +37,13 @@ export class CartViewComponent implements OnInit {
     );
   }
 
+  clearCart(): void {
+    this.cartService
+      .clearCart(this.cartItems)
+      .subscribe(() => this.fetchData());
+  }
+
   ngOnInit(): void {
-    this.cartService.getCartItems().subscribe((data) => {
-      this.cartItems = data;
-    });
+    this.fetchData();
   }
 }

@@ -8,9 +8,19 @@
         <span class="text-gray-500">{{ item.price | currency : "USD" }}</span>
       </mat-list-item>
       }
-      <mat-list-item >
+      <mat-list-item>
         <span matListItemTitle>Total (USD)</span>
-        <span class="font-semibold">{{ getTotalPrice() | currency : "USD" }}</span>
+        <span class="font-semibold">{{
+          getTotalPrice() | currency : "USD"
+        }}</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="clearCart()">
+        <button mat-flat-button>Clear</button>
+      </mat-list-item>
+
+      <mat-list-item (click)="checkout()">
+        <button mat-flat-button color="accent">Checkout</button>
       </mat-list-item>
     </mat-list>
   </mat-card>

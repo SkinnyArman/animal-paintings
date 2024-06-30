@@ -3,6 +3,7 @@ import { Product } from '../../models/product';
 import { ProductService } from '../product.service';
 import { MatCardModule } from '@angular/material/card';
 import { CurrencyPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',

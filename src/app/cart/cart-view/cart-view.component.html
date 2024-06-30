@@ -1,0 +1,17 @@
+<div class="container-sm">
+  <div class="text-xl">Your Cart</div>
+  <mat-card>
+    <mat-list>
+      @for (item of cartItems; track item.id) {
+      <mat-list-item>
+        <span matListItemTitle>{{ item.name }}</span>
+        <span class="text-gray-500">{{ item.price | currency : "USD" }}</span>
+      </mat-list-item>
+      }
+      <mat-list-item >
+        <span matListItemTitle>Total (USD)</span>
+        <span class="font-semibold">{{ getTotalPrice() | currency : "USD" }}</span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>

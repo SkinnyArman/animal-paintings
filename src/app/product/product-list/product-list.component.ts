@@ -7,17 +7,28 @@ import { Router } from '@angular/router';
 import { CartService } from '../../cart/cart.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
+import { SORT } from '../../enums/Sort.enum';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [MatCardModule, CurrencyPipe, MatSnackBarModule, MatInputModule],
+  imports: [
+    MatCardModule,
+    CurrencyPipe,
+    MatSnackBarModule,
+    MatInputModule,
+    MatSelect,
+    MatOption,
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
   products = signal<Product[]>([]);
   searchedValue = signal('');
+  sortOrder = signal<SORT | null>(SORT.Ascending);
+  SORT = SORT;
 
   constructor(
     private productService: ProductService,
@@ -31,10 +42,17 @@ export class ProductListComponent implements OnInit {
   }
   bobby = computed(() => {
     const searchValue = this.searchedValue().toLowerCase();
-    const filteredProducts = this.products().filter((product: Product) =>
+    const searchedProducts = this.products().filter((product: Product) =>
       product.name.toLowerCase().includes(searchValue)
     );
-    return filteredProducts;
+    switch (this.sortOrder()) {
+      case null:
+        return searchedProducts;
+      case SORT.Ascending:
+        return searchedProducts.sort((a, b) => a.price - b.price);
+      case SORT.Descending:
+        return searchedProducts.sort((a, b) => b.price - a.price);
+    }
   });
   addToCart(product: Product) {
     this.cartService.addToCart(product).subscribe({
@@ -57,5 +75,8 @@ export class ProductListComponent implements OnInit {
   applyFiter(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.searchedValue.set(target.value);
+  }
+  sortProducts(order: SORT) {
+    this.sortOrder.set(order);
   }
 }

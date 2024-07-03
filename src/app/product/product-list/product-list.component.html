@@ -1,8 +1,15 @@
 <div class="container">
   <p class="text-xl font-bold">Our Latest Collection</p>
 
-  <mat-form-field>
+  <mat-form-field class="mr-4">
     <input matInput (keyup)="applyFiter($event)" placeholder="Search" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select (selectionChange)="sortProducts($event.value)">
+      <mat-option [value]="SORT.Ascending">Price: Low to High</mat-option>
+      <mat-option [value]="SORT.Descending">Price: High to Low</mat-option>
+    </mat-select>
   </mat-form-field>
   <div class="flex flex-wrap gap-12">
     @for (product of bobby(); track product.id) {
